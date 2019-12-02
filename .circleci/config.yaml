@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12.5.0-browsers
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "./src/package.json" }}
+            - node-v1-
+
+      - run:
+          command: npm install
+
+      - save_cache:
+          key: node-v1-{{ checksum "./src/package.json" }}
+          paths:
+            - ./src/node_modules
+
+      - run:
+          name: UnitTest
+          command: npm run unit

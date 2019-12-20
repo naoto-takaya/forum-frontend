@@ -23,3 +23,13 @@ jobs:
       - run:
           name: UnitTest
           command: npm run unit
+orbs:
+  aws-s3: circleci/aws-s3@1.0.0
+workflows:
+  s3-deploy:
+    jobs:
+      - build
+      - aws-s3/sync:
+          from: ./
+          to: 's3://my-s3-bucket-name/prefix'
+          overwrite: true

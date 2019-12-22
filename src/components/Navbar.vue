@@ -1,0 +1,48 @@
+<template>
+  <v-app-bar class="nav-bar">
+    <v-toolbar-title>
+      <router-link class="toolbar-title" to="/">Page title</router-link>
+    </v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-badge class="nav-item">
+      <template v-slot:badge>
+        <div v-if="notificationBadge">{{notificationCount}}</div>
+      </template>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn text icon color="grey">
+            <v-icon v-on="on">mdi-bell</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="n of 5" :key="n">
+            <v-list-item-title>通知の内容を記述していく</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-badge>
+    <v-btn class="nav-item-button" to="/login" width="100px" outlined color="primary">ログイン</v-btn>
+    <v-btn class="nav-item-button" to="/login" width="100px" depressed color="primary">登録</v-btn>
+  </v-app-bar>
+</template>
+<script>
+export default {
+  name: "Navbar",
+  data: () => ({
+    notificationBadge: false,
+    notificationCount: "99+"
+  })
+};
+</script>
+<style scoped>
+.nav-item {
+  margin: 30px;
+}
+.nav-item-button {
+  margin: 5px;
+}
+.toolbar-title {
+  color: inherit;
+  text-decoration: inherit;
+}
+</style>

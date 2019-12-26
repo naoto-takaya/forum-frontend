@@ -1,41 +1,46 @@
 version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.12
-jobs:
-  build:
+executors:
+  default:
     docker:
       - image: circleci/node:12.5.0-browsers
-
+      - image: circleci/python:2.7
+jobs:
+  build:
+    executor: default
     steps:
       - checkout
 
       - restore_cache:
           keys:
-            - node-v1-{{ checksum "./src/package.json" }}
+            - node-v1-{{ checksum "./package.json" }}
             - node-v1-
 
       - run:
           command: npm install
 
       - save_cache:
-          key: node-v1-{{ checksum "./src/package.json" }}
+          key: node-v1-{{ checksum "./package.json" }}
           paths:
-            - ./src/node_modules
+            - ./node_modules
 
       - run:
           name: UnitTest
           command: npm run test:unit
       
-      - run:
-          command: npm run build
   deploy:
-    docker:
-      - image: 'circleci/python:3.6'
+    executor: default
     steps:
       - checkout
+      - run:
+          command: npm install 
+      - run:
+          command: npm run build
       - aws-s3/copy:
           from: ./dist
           to: 's3://aws-learning.com'
+          arguments: '--recursive'
 workflows:
   build_and_deploy:
     jobs:
@@ -43,6 +48,6 @@ workflows:
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              only: master
+          # filters:
+          #   branches:
+          #     only: master

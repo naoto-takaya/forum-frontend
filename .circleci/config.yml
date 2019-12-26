@@ -40,6 +40,7 @@ jobs:
       - aws-s3/copy:
           from: ./dist
           to: 's3://aws-learning.com'
+          arguments: '--recursive'
 workflows:
   build_and_deploy:
     jobs:

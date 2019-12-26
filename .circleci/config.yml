@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  aws-s3: circleci/aws-s3@1.0.12
 jobs:
   build:
     docker:
@@ -22,4 +24,25 @@ jobs:
 
       - run:
           name: UnitTest
-          command: npm run unit
+          command: npm run test:unit
+      
+      - run:
+          command: npm run build
+  deploy:
+    docker:
+      - image: 'circleci/python:3.6'
+    steps:
+      - checkout
+      - aws-s3/copy:
+          from: ./dist
+          to: 's3://aws-learning.com'
+workflows:
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

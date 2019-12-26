@@ -29,9 +29,14 @@ jobs:
 orbs:
   aws-s3: circleci/aws-s3@1.0.0
 workflows:
-  s3-deploy:
+  build_and_deploy:
     jobs:
       - build
       - aws-s3/copy:
-        from: ./dist
-        to: 's3://aws-learning.com'
+          from: ./dist
+          to: 's3://aws-learning.com'
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

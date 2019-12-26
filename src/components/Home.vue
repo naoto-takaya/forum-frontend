@@ -1,8 +1,8 @@
-<template>
+<template name="fade">
   <v-container class="container">
-    <v-row v-for="n of 5" :key="n">
-      <v-col cols="lg-10">
-        <Forum />
+    <v-row>
+      <v-col col="12" lg="10" xl="8">
+        <Forum v-for="forum in forums" :forum="forum" v-bind:key="forum.id" />
       </v-col>
     </v-row>
   </v-container>
@@ -14,6 +14,14 @@ export default {
   name: "Home",
   components: {
     Forum
+  },
+  data: () => ({
+    forums: null
+  }),
+  created: async function() {
+    await this.axios.get("http://localhost:3000/forums").then(response => {
+      this.forums = response.data;
+    });
   }
 };
 </script>

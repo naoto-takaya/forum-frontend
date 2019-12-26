@@ -1,19 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import auth from './auth'
+import loading from './loading'
+
+
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
-    loading: false
-  },
-  mutations: {
-    setLoading(state, payload) {
-      state.loading = payload
-    }
-  },
-  actions: {
-  },
+const store = new Vuex.Store({
   modules: {
+    loading,
+    auth,
   }
 })
+
+export default store

@@ -58,7 +58,7 @@
               :size="50"
               color="amber"
               indeterminate
-              v-show="$store.state.loading"
+              v-show="$store.state.loading.loading"
             ></v-progress-circular>
           </div>
         </v-col>
@@ -86,9 +86,10 @@ export default {
   methods: {
     login: async function() {
       this.showForm = false;
-      this.$store.commit("setLoading", true);
+      this.$store.commit("loading/setLoading", true);
       await this.sleep(1); //TODO: loginApiを呼び出す
-      this.$store.commit("setLoading", false);
+      this.$store.commit("loading/setLoading", false);
+      this.$store.commit("auth/setAuth", true);
       this.loginSuccess = true;
       this.$router.push("/");
     },

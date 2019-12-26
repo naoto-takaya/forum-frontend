@@ -27,7 +27,7 @@ jobs:
       - run:
           command: npm run build
 orbs:
-  aws-s3: circleci/aws-s3@1.0.0
+  aws-s3: circleci/aws-s3@1.0.12
 workflows:
   build_and_deploy:
     jobs:

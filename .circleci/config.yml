@@ -32,7 +32,6 @@ workflows:
   s3-deploy:
     jobs:
       - build
-      - aws-s3/sync:
-          from: ./dist
-          to: 's3://aws-learning.com'
-          overwrite: true
+      - aws-s3/copy:
+        from: ./dist
+        to: 's3://aws-learning.com'

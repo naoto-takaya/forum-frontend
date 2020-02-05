@@ -1,5 +1,5 @@
 <template>
-  <router-link class="forum-link" to="/forum">
+  <router-link class="forum-link" v-bind:to="{ name: 'forum', params : { id: forum.id }}">
     <v-card color="white" class="forum-card">
       <div class="d-flex flex-no-wrap">
         <v-img class="white--text thumnale" max-width="6rem" max-height="6rem" :src="forum.image"></v-img>

@@ -7,7 +7,7 @@
       <span>{{response.like_count}}</span>
       <p class="text">{{response.content}}</p>
       <div class="option">
-        <v-btn @click="moreReply" small text color="grey">...</v-btn>
+        <v-btn @click="moreReply" small text color="grey" v-if="response.replies">...</v-btn>
         <v-btn @click="writeReply = !writeReply" small text color="grey">返信</v-btn>
       </div>
       <transition name="fade">

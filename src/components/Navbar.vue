@@ -26,33 +26,36 @@
     </div>
     <dir v-show="!$store.state.auth.auth">
       <v-btn class="nav-item-button" to="/login" width="100px" outlined color="primary">ログイン</v-btn>
-      <v-btn class="nav-item-button" to="/login" width="100px" depressed color="primary">登録</v-btn>
+      <v-btn class="nav-item-button" to="/register" width="100px" depressed color="primary">登録</v-btn>
     </dir>
   </v-app-bar>
 </template>
 <script>
-export default {
-  name: "Navbar",
-  data: () => ({
-    notificationBadge: false,
-    notificationCount: "99+"
-  }),
-  methods: {
-    logout: function() {
-      this.$store.commit("auth/setAuth", false);
+  export default {
+    name: "Navbar",
+    data: () => ({
+      notificationBadge: false,
+      notificationCount: "99+"
+    }),
+    methods: {
+      logout: async function () {
+        await this.axios.get("/logout");
+        this.$store.commit("auth/setAuth", false);
+      }
     }
-  }
-};
+  };
 </script>
 <style scoped>
-.nav-item {
-  margin: 30px;
-}
-.nav-item-button {
-  margin: 5px;
-}
-.toolbar-title {
-  color: inherit;
-  text-decoration: inherit;
-}
+  .nav-item {
+    margin: 30px;
+  }
+
+  .nav-item-button {
+    margin: 5px;
+  }
+
+  .toolbar-title {
+    color: inherit;
+    text-decoration: inherit;
+  }
 </style>

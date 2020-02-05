@@ -6,6 +6,19 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL
+axios.defaults.withCredentials = true
+
+axios.interceptors.response.use(response => {
+  return response
+}, error => {
+  switch (error.response.status) {
+    case 401:
+      router.push("/login");
+      break;
+  }
+})
+
 Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false

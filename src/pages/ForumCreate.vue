@@ -1,31 +1,27 @@
 <template>
   <div class="reply">
     <v-form v-model="valid" @submit.prevent="submitReply">
-      <div class="content">
-        <v-textarea name="input-7-1" hint="Hint text" class="text-field" v-model="content"></v-textarea>
+      <div class="title">
+        <v-textarea name="input-7-1" hint="Hint text" class="text-field" v-model="title"></v-textarea>
       </div>
-      <div class="under-area">
+      <div class="image">
+        <v-file-input label="File input"></v-file-input>
+      </div>
+      <div class="underarea">
         <div class="underline"></div>
-        <v-btn
-          depressed
-          color="primary"
-          type="submit"
-          class="button"
-          :disabled="!activateSubmit"
-        >送信
-        </v-btn>
+        <v-btn depressed color="primary" type="submit" class="button">送信</v-btn>
       </div>
     </v-form>
   </div>
 </template>
 <script>
   export default {
-    name: "Reply",
+    name: "ForumCreate",
     data: () => ({
-      content: ""
+      title: ""
     }),
     computed: {
-      activateSubmit() {
+      activateSubmmit() {
         const content_string = this.content.trim();
         return content_string.length > 0;
       }
@@ -33,12 +29,11 @@
     methods: {
       submitReply: async function () {
         await this.axios
-          .post("/response", {})
+          .post("/forums", {title: this.title, image: this.image})
           .then(response => {
             this.responses = response.data;
           });
         this.content = "";
-        this.$emit("replied");
       }
     }
   };
@@ -56,12 +51,12 @@
     margin: 1.5rem;
   }
 
-  .reply .under-area {
+  .reply .underarea {
     background-color: #efebeb;
     text-align: right;
   }
 
-  .reply .under-area .button {
+  .reply .underarea .button {
     margin-bottom: 0.4rem;
     margin-right: 0.4rem;
   }

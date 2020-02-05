@@ -19,8 +19,8 @@ export default {
     forums: null
   }),
   created: async function() {
-    await this.axios.get("http://localhost:3000/forums").then(response => {
-      this.forums = response.data;
+    await this.axios.get("/forums").then(response => {
+      this.forums = response.data.forums;
     });
   }
 };

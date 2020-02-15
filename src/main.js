@@ -5,9 +5,11 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import config from './config'
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL
 axios.defaults.withCredentials = true
+
 
 axios.interceptors.response.use(response => {
   return response
@@ -21,14 +23,16 @@ axios.interceptors.response.use(response => {
 
 Vue.use(VueAxios, axios)
 
-Vue.config.productionTip = false
-Vue.directive('visible', function (el, binding) {
-  el.style.visibility = binding.value ? 'visible' : 'hidden';
+Vue.directive('visible', function(el, binding) {
+  el.style.visibility = !!binding.value ? 'visible' : 'hidden';
 });
+
+Vue.config.productionTip = false
 
 new Vue({
   vuetify,
   router,
   store,
+  config,
   render: h => h(App)
 }).$mount('#app')

@@ -24,6 +24,11 @@
     data: () => ({
       content: ""
     }),
+    props: {
+      response: {
+        type: Object
+      }
+    },
     computed: {
       activateSubmit() {
         const content_string = this.content.trim();
@@ -32,13 +37,14 @@
     },
     methods: {
       submitReply: async function () {
+        this.$emit("replied");
         await this.axios
-          .post("/response", {})
+          .post("/responses",
+            {content: this.content, forum_id: this.response.forum_id, response_id: this.response.id})
           .then(response => {
             this.responses = response.data;
           });
         this.content = "";
-        this.$emit("replied");
       }
     }
   };

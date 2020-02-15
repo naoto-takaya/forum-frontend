@@ -4,7 +4,7 @@ import Home from './components/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import ForumCreate from './pages/ForumCreate'
-import Forum from './pages/Forum'
+import ForumPage from './pages/ForumPage'
 
 Vue.use(Router)
 
@@ -34,7 +34,7 @@ export default new Router({
     {
       path: '/forums/:id',
       name: 'forums',
-      component: Forum
+      component: ForumPage
     },
   ]
 })

@@ -5,7 +5,7 @@
         <p class="font-weight-bold">ログイン</p>
       </v-col>
     </v-row>
-    <v-form ref="form" @submit.prevent="login">
+    <v-form @submit.prevent="login" ref="loginForm">
       <v-row justify="center">
         <v-col cols="lg-6">
           <v-text-field
@@ -36,7 +36,7 @@
       <div v-show="showForm">
         <v-row justify="center">
           <v-col cols="lg-6">
-            <v-btn x-large class="login-button" type="submit" color="primary">ログイン</v-btn>
+            <v-btn x-large class="login-button" type="submit" color="primary" :disabled="disableLogin">ログイン</v-btn>
             <span class="font-weight-thin thin-word">
               <router-link class="link" to="/">パスワードを忘れた場合</router-link>
             </span>
@@ -80,9 +80,12 @@
       ],
       passwordRules: [
         value => !!value || "パスワードは必須です",
-        v => v.length >= 8 || "パスワードは8文字以上必要です"
-      ]
+      ],
+      disableLogin: true
     }),
+    updated() {
+      this.disableLogin = !(this.$refs.loginForm.validate());
+    },
     methods: {
       login: async function () {
         this.showForm = false;

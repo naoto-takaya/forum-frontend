@@ -24,10 +24,13 @@
       </v-badge>
       <v-btn class="nav-item-button" @click="logout" width="100px" outlined color="primary">ログアウト</v-btn>
     </div>
-    <dir v-show="!$store.state.auth.auth">
+    <v-btn text icon color="grey" to="/forums/create">
+      <v-icon >mdi-pencil</v-icon>
+    </v-btn>
+    <div v-show="!$store.state.auth.auth">
       <v-btn class="nav-item-button" to="/login" width="100px" outlined color="primary">ログイン</v-btn>
       <v-btn class="nav-item-button" to="/register" width="100px" depressed color="primary">登録</v-btn>
-    </dir>
+    </div>
   </v-app-bar>
 </template>
 <script>

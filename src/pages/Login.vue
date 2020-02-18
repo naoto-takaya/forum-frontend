@@ -38,7 +38,7 @@
           <v-col cols="lg-6">
             <v-btn x-large class="login-button" type="submit" color="primary" :disabled="disableLogin">ログイン</v-btn>
             <span class="font-weight-thin thin-word">
-              <router-link class="link" to="/">パスワードを忘れた場合</router-link>
+              <router-link class="link" to="/password_send_mail">パスワードを忘れた場合</router-link>
             </span>
           </v-col>
         </v-row>

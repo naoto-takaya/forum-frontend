@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ForumCreate from './pages/ForumCreate'
 import ForumPage from './pages/ForumPage'
+import PasswordSendMail from './pages/PasswordSendMail'
 
 Vue.use(Router)
 
@@ -36,5 +37,10 @@ export default new Router({
       name: 'forums',
       component: ForumPage
     },
+    {
+      path: '/password_send_mail',
+      name: 'passwordSendMail',
+      component: PasswordSendMail
+    }
   ]
 })

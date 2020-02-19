@@ -8,8 +8,9 @@
             <v-col
               cols="12"
               sm="10"
-              lg="8"
-              offset-lg="2"
+              lg="10"
+              xl="8"
+              offset-xl="2"
               offset-sm="1"
             >
               <router-view/>

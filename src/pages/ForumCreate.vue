@@ -1,50 +1,46 @@
 <template>
-  <v-container>
+  <div>
     <v-card color="white" class="forum-card">
-      <v-row>
-        <v-col cols="12" sm="8">
-          <h1>フォーラムを新しく作成する</h1>
-          <div class="forum-content">
-            <v-form @submit.prevent="submitForum" ref="form">
-              <v-text-field
-                v-model="title"
-                :rules="titleRules"
-                counter="50"
-                label="フォーラムタイトル"
-                outlined
-                autocomplete="off"
-                class="form-title"
-              ></v-text-field>
+      <h1>フォーラムを新しく作成する</h1>
+      <div class="forum-content">
+        <v-form @submit.prevent="submitForum" ref="form">
+          <v-text-field
+            v-model="title"
+            :rules="titleRules"
+            counter="50"
+            label="フォーラムタイトル"
+            outlined
+            autocomplete="off"
+            class="form-title"
+          ></v-text-field>
 
-                <div class="image" v-if>
-                  <v-file-input id="file-input" label="画像を添付" accept="image/*" @change="postRekognition"></v-file-input>
-                </div>
-                <p class="image-description">添付される画像はAIによって解析されます。<br>
-                  投稿に相応しくないと判断された場合、画像は投稿できません。
-                </p>
-              <div class="image-upload" >
-                <v-img
-                  :src="preview"
-                  aspect-ratio="1"
-                  class="preview"
-                  v-if="preview"
-                >
-                  <div v-show="imageUploading">
-                    <v-progress-circular indeterminate loading></v-progress-circular>
-                    <span class="upload-text">画像を解析中です...</span>
-                  </div>
-                </v-img>
-                <p class="level-result">{{levelResult}}</p>
-                <div class="form-post">
-                  <v-btn depressed color="primary" type="submit" :disabled="disableSubmit">投稿</v-btn>
-                </div>
-              </div>
-            </v-form>
+          <div class="image" v-if>
+            <v-file-input id="file-input" label="画像を添付" accept="image/*" @change="postRekognition"></v-file-input>
           </div>
-        </v-col>
-      </v-row>
+          <p class="image-description">添付される画像はAIによって解析されます。<br>
+            投稿に相応しくないと判断された場合、画像は投稿できません。
+          </p>
+          <div class="image-upload">
+            <v-img
+              :src="preview"
+              aspect-ratio="1"
+              class="preview"
+              v-if="preview"
+            >
+              <div v-show="imageUploading">
+                <v-progress-circular indeterminate loading></v-progress-circular>
+                <span class="upload-text">画像を解析中です...</span>
+              </div>
+            </v-img>
+            <p class="level-result">{{levelResult}}</p>
+            <div class="form-post">
+              <v-btn depressed color="primary" type="submit" :disabled="disableSubmit">投稿</v-btn>
+            </div>
+          </div>
+        </v-form>
+      </div>
     </v-card>
-  </v-container>
+  </div>
 </template>
 <script>
   export default {
@@ -165,7 +161,7 @@
     border: 0.08rem solid grey;
     width: 10rem;
     height: 10rem;
-    margin: 0  auto;
+    margin: 0 auto;
     background-color: #00acc1;
   }
 

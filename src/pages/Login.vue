@@ -1,70 +1,46 @@
 <template>
-  <v-container class="container">
-    <v-row justify="center">
-      <v-col cols="lg-6">
-        <p class="font-weight-bold">ログイン</p>
-      </v-col>
-    </v-row>
+  <div>
+    <p class="font-weight-bold">ログイン</p>
     <v-form @submit.prevent="login" ref="loginForm">
-      <v-row justify="center">
-        <v-col cols="lg-6">
-          <v-text-field
-            v-model="email"
-            :rules="emailRules"
-            outlined
-            label="メールアドレス"
-            prepend-icon="mdi-email"
-            required
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="lg-6">
-          <v-text-field
-            v-model="password"
-            :rules="passwordRules"
-            outlined
-            label="パスワード"
-            prepend-icon="mdi-key-variant"
-            :type="showPassword ? 'text' : 'password'"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
-            required
-          ></v-text-field>
-        </v-col>
-      </v-row>
+      <v-text-field
+        v-model="email"
+        :rules="emailRules"
+        outlined
+        label="メールアドレス"
+        prepend-icon="mdi-email"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="password"
+        :rules="passwordRules"
+        outlined
+        label="パスワード"
+        prepend-icon="mdi-key-variant"
+        :type="showPassword ? 'text' : 'password'"
+        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="showPassword = !showPassword"
+        required
+      ></v-text-field>
       <div v-show="showForm">
-        <v-row justify="center">
-          <v-col cols="lg-6">
-            <v-btn x-large class="login-button" type="submit" color="primary" :disabled="disableLogin">ログイン</v-btn>
-            <span class="font-weight-thin thin-word">
+        <v-btn x-large class="login-button" type="submit" color="primary" :disabled="disableLogin">ログイン</v-btn>
+        <v-btn x-large class="login-button white--text" type="submit" color="grey">
+          かんたんログイン
+          <v-icon>mdi-incognito</v-icon>
+        </v-btn>
+        <span class="font-weight-thin thin-word">
               <router-link class="link" to="/password_send_mail">パスワードを忘れた場合</router-link>
             </span>
-          </v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="lg-6">
-            <v-btn x-large class="login-button white--text" type="submit" color="grey">
-              かんたんログイン
-              <v-icon>mdi-incognito</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
       </div>
-      <v-row justify="center">
-        <v-col cols="lg-6">
-          <div class="text-center">
-            <v-progress-circular
-              :size="50"
-              color="amber"
-              indeterminate
-              v-show="$store.state.loading.loading"
-            ></v-progress-circular>
-          </div>
-        </v-col>
-      </v-row>
+      <div class="text-center">
+        <v-progress-circular
+          :size="50"
+          color="amber"
+          indeterminate
+          v-show="$store.state.loading.loading"
+        ></v-progress-circular>
+      </div>
     </v-form>
-  </v-container>
+  </div>
 </template>
 <script>
   export default {

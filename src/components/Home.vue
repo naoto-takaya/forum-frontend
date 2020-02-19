@@ -1,11 +1,7 @@
 <template name="fade">
-  <v-container class="container">
-    <v-row>
-      <v-col col="12" lg="10" xl="8">
+  <div>
         <Forum v-for="forum in forums" :forum="forum" v-bind:key="forum.id" />
-      </v-col>
-    </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -20,7 +16,7 @@ export default {
   }),
   created: async function() {
     await this.axios.get("/forums").then(response => {
-      this.forums = response.data.forums;
+      this.forums = response.data.forums.data;
     });
   }
 };

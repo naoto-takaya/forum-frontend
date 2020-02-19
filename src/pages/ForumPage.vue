@@ -73,6 +73,9 @@
 </script>
 
 <style scoped>
+  .forum-card{
+    margin: 3rem 0 0;
+  }
   .footer {
     height: 10rem;
   }

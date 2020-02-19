@@ -14,7 +14,7 @@
             class="form-title"
           ></v-text-field>
 
-          <div class="image" v-if>
+          <div class="image">
             <v-file-input id="file-input" label="画像を添付" accept="image/*" @change="postRekognition"></v-file-input>
           </div>
           <p class="image-description">添付される画像はAIによって解析されます。<br>
@@ -34,7 +34,14 @@
             </v-img>
             <p class="level-result">{{levelResult}}</p>
             <div class="form-post">
-              <v-btn depressed color="primary" type="submit" :disabled="disableSubmit">投稿</v-btn>
+              <v-btn
+                depressed
+                color="primary"
+                type="submit"
+                :disabled="disableSubmit"
+                width="150"
+              >投稿
+              </v-btn>
             </div>
           </div>
         </v-form>

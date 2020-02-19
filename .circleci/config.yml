@@ -28,13 +28,13 @@ jobs:
       - run:
           name: UnitTest
           command: npm run test:unit
-      
+
   deploy:
     executor: default
     steps:
       - checkout
       - run:
-          command: npm install 
+          command: npm install
       - run:
           command: npm run build
       - aws-s3/copy:
@@ -48,6 +48,6 @@ workflows:
       - deploy:
           requires:
             - build
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master

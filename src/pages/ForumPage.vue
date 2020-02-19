@@ -1,12 +1,6 @@
 <template>
-  <v-container class="container">
-    <v-row>
-      <v-col cols="lg-10">
+  <div>
         <Forum :forum="forum"/>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="lg-10">
         <v-card color="white" class="forum-card">
           <div v-show="showResponses">
             <Response
@@ -34,9 +28,7 @@
             </v-container>
           </div>
         </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  </div>
 </template>
 <script>
   import Forum from "../components/Forum";
@@ -81,6 +73,9 @@
 </script>
 
 <style scoped>
+  .forum-card{
+    margin: 3rem 0 0;
+  }
   .footer {
     height: 10rem;
   }

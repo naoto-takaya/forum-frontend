@@ -6,6 +6,7 @@ import Register from './pages/Register'
 import ForumCreate from './pages/ForumCreate'
 import ForumPage from './pages/ForumPage'
 import PasswordSendMail from './pages/PasswordSendMail'
+import PasswordReset from './pages/PasswordReset'
 
 Vue.use(Router)
 
@@ -41,6 +42,12 @@ export default new Router({
       path: '/password_send_mail',
       name: 'passwordSendMail',
       component: PasswordSendMail
-    }
+    },
+    {
+     path: '/password/reset/:token',
+      name:'passwordReset',
+      component: PasswordReset
+    },
+
   ]
 })

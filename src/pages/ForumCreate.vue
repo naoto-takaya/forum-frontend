@@ -15,7 +15,7 @@
           ></v-text-field>
 
           <div class="image">
-            <v-file-input id="file-input" label="画像を添付" accept="image/*" @change="postRekognition"></v-file-input>
+            <v-file-input v-model="imageFile" id="file-input" label="画像を添付" accept="image/*" @change="postRekognition"></v-file-input>
           </div>
           <p class="image-description">添付される画像はAIによって解析されます。<br>
             投稿に相応しくないと判断された場合、画像は投稿できません。
@@ -54,6 +54,7 @@
     name: "ForumCreate",
     data: () => ({
       title: "",
+      imageFile: null,
       level: null,
       preview: '',
       levelResult: '',
@@ -76,8 +77,17 @@
        * @returns {Promise<void>}
        */
       submitForum: async function () {
+        const config = {
+          headers: {
+            'content-type': 'multipart/form-data'
+          }
+        };
+        const formData = new FormData();
+        formData.append('image', this.imageFile);
+        formData.append('title', this.title);
+
         await this.axios
-          .post("/forums", {title: this.title})
+          .post("/forums", formData, config)
           .then(response => {
             this.responses = response.data;
           });
@@ -94,23 +104,22 @@
       postRekognition: async function (file) {
         // 画像の削除処理を呼び出す
         if (file == null) {
-          // imageを削除するAPIにアクセス
-          this.axios.delete("/rekognition");
           this.levelResult = '';
           this.preview = '';
           this.level = null;
+          this.imageFile = null;
           return
         }
+        console.log(this.imageFile);
+        this.imageFile = file;
 
-        // プレビュー画像の作成
+        //プレビュー画像の作成
         this.imageUploading = true;
         const reader = new FileReader();
         reader.onload = (event) => {
           this.preview = event.target.result;
-          document.getElementById("file-input").files = event.target.result;
         };
         reader.readAsDataURL(file);
-
         // サーバーサイド処理の呼び出し
         const formData = new FormData();
         formData.append('image', file);
@@ -124,7 +133,7 @@
           .then(response => {
             this.level = response.data.level
           }).catch(e => {
-            this.leve = null
+            this.level = null
           });
 
         switch (true) {

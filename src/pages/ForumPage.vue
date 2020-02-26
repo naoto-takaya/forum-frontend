@@ -1,33 +1,33 @@
 <template>
   <div>
-        <Forum :forum="forum"/>
-        <v-card color="white" class="forum-card">
-          <div v-show="showResponses">
-            <Response
-              v-for="response in responses"
-              v-bind:key="response.id"
-              v-bind:response="response"
-              @replied="getResponse"
-            />
-          </div>
-          <div class="text-center">
-            <v-progress-circular
-              :size="50"
-              color="amber"
-              indeterminate
-              v-show="$store.state.loading.loading"
-            ></v-progress-circular>
-          </div>
-          <div class="write-response">
-            <v-container>
-              <v-row>
-                <v-col cols="8">
-                  <Reply :forum="forum"/>
-                </v-col>
-              </v-row>
-            </v-container>
-          </div>
-        </v-card>
+    <Forum :forum="forum"/>
+    <v-card color="white" class="forum-card">
+      <div v-show="showResponses">
+        <Response
+          v-for="response in responses"
+          v-bind:key="response.id"
+          v-bind:response="response"
+          v-bind:forum="forum"
+        />
+      </div>
+      <div class="text-center">
+        <v-progress-circular
+          :size="50"
+          color="amber"
+          indeterminate
+          v-show="$store.state.loading.loading"
+        ></v-progress-circular>
+      </div>
+      <div class="write-response">
+        <v-container>
+          <v-row>
+            <v-col cols="8">
+              <Reply :forum="forum"  @responded="getMoreResponses"/>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+    </v-card>
   </div>
 </template>
 <script>
@@ -42,17 +42,11 @@
       Forum,
       Response
     },
-    props: {
-      forum: {
-        type: Object
-      },
-      response: {
-        type: Object
-      }
-    },
     data: () => (
       {
         showResponses: false,
+        forum: null,
+        responses: [],
       }
     ),
     mounted: async function () {
@@ -69,13 +63,22 @@
       this.$store.commit("loading/setLoading", false);
       this.showResponses = true;
     },
+    methods:{
+        getMoreResponses:async function(){
+          await this.axios.get("forums/" + this.$route.params.id + "/responses")
+            .then(response =>{
+              this.responses = response.data.responses
+            })
+      },
+    }
   };
 </script>
 
 <style scoped>
-  .forum-card{
+  .forum-card {
     margin: 3rem 0 0;
   }
+
   .footer {
     height: 10rem;
   }

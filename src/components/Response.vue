@@ -6,11 +6,9 @@
     <div class="content">
       <span class="user-name">{{response.user_name}}</span>
       <v-icon color="#BDBDBD">{{sentimentIcon}}</v-icon>
-      <v-icon color="#BDBDBD" class="up" small @click="likeButton">mdi-thumb-up</v-icon>
-      <span>{{response.like_count}}</span>
       <p class="text">{{response.content}}</p>
       <div class="option">
-        <v-btn @click="moreReply" small text color="grey">{{response.replies_count}}件の返信</v-btn>
+        <v-btn @click="getReplies" small text color="grey">{{response.replies_count}}件の返信</v-btn>
         <v-btn @click="writeReply = !writeReply" small text color="grey">返信</v-btn>
       </div>
       <transition name="fade">
@@ -18,7 +16,7 @@
           <v-container>
             <v-row>
               <v-col cols="sm-8">
-                <Reply :response="response" @replied="submittedReply"/>
+                <Reply :response="response" :forum="forum" @replied="submittedReply"/>
               </v-col>
             </v-row>
           </v-container>
@@ -26,7 +24,7 @@
       </transition>
       <transition name="fade">
         <div v-show="hideReply" class="reply">
-          <Response v-for=" reply in response.replies" :response="reply" v-bind:key="reply.id"/>
+          <Response v-for=" reply in response.replies" :response="reply" :forum="forum" v-bind:key="reply.id"/>
         </div>
       </transition>
     </div>
@@ -49,6 +47,9 @@
     }),
     props: {
       response: {
+        type: Object
+      },
+      forum:{
         type: Object
       }
     },
@@ -73,24 +74,13 @@
       }
     },
     methods: {
-      moreReply: async function () {
+      getReplies: async function () {
         if (!this.response.replies) {
           await this.axios.get("/responses/" + this.response.id + "/replies").then(result => {
             this.response.replies = result.data.replies;
           });
         }
         this.hideReply = !this.hideReply;
-      },
-      countUp: function () {
-        this.count++;
-      },
-      likeButton: function () {
-        this.response.liked = !this.response.liked;
-        if (this.response.liked) {
-          this.response.like_count++;
-        } else {
-          this.response.like_count--;
-        }
       },
       submittedReply: function () {
         this.writeReply = !this.writeReply;

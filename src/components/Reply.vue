@@ -5,7 +5,7 @@
         <v-textarea name="input-7-1" hint="Hint text" class="text-field" v-model="content"></v-textarea>
       </div>
       <div class="image">
-        <v-file-input id="file-input"  label="画像を添付" accept="image/*" @change="postRekognition"></v-file-input>
+        <v-file-input id="file-input" label="画像を添付" accept="image/*" @change="postRekognition"></v-file-input>
       </div>
       <div class="under-area">
         <div class="underline"></div>
@@ -34,8 +34,8 @@
       response: {
         type: Object
       },
-      forum:{
-        type:Object
+      forum: {
+        type: Object
       }
     },
     computed: {
@@ -43,8 +43,8 @@
         const content_string = this.content.trim();
         return content_string.length > 0;
       },
-      responseId(){
-        return this.response ? this.response.id: null;
+      responseId() {
+        return this.response ? this.response.id : null;
       }
     },
     methods: {
@@ -65,7 +65,7 @@
         // 画像の削除処理を呼び出す
         if (file == null) {
           // imageを削除するAPIにアクセス
-          this.axios.delete("/rekognition");
+          await this.axios.delete("/rekognition");
           this.levelResult = '';
           this.preview = '';
           this.level = null;
@@ -93,9 +93,9 @@
           .post("/responses/rekognition", formData, config)
           .then(response => {
             this.level = response.data.level
-          }).catch(e => {
+          }).catch(
             this.leve = null
-          });
+          );
         this.imageUploading = false;
       },
     }

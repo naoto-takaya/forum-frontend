@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import auth from './auth'
-import loading from './loading'
+import user from './auth'
+import createPersistedState from 'vuex-persistedstate'
 
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    loading,
-    auth,
-  }
+    user,
+  },
+  plugins: [createPersistedState()],
 })
 
 export default store

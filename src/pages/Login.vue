@@ -21,87 +21,102 @@
         @click:append="showPassword = !showPassword"
         required
       ></v-text-field>
-      <div v-show="showForm">
-        <v-btn x-large class="login-button" type="submit" color="primary" :disabled="disableLogin">ログイン</v-btn>
-        <v-btn x-large class="login-button white--text" type="submit" color="grey">
+      <p class="login-result" v-show="loginResult">{{loginResult}}</p>
+      <div class="login-link" v-show="showForm">
+        <v-btn
+          class="login-button"
+          large
+          type="submit"
+          color="primary"
+          :disabled="disableLogin"
+        >ログイン</v-btn>
+        <br />
+        <v-btn class="login-button white--text" large type="submit" color="grey">
           かんたんログイン
           <v-icon>mdi-incognito</v-icon>
         </v-btn>
-        <span class="font-weight-thin thin-word">
-              <router-link class="link" to="/password_send_mail">パスワードを忘れた場合</router-link>
-            </span>
+        <p class="font-weight-thin thin-word">
+          <router-link class="link" to="/password_send_mail">パスワードを忘れた場合</router-link>
+        </p>
       </div>
       <div class="text-center">
-        <v-progress-circular
-          :size="50"
-          color="amber"
-          indeterminate
-          v-show="$store.state.loading.loading"
-        ></v-progress-circular>
+        <v-progress-circular :size="50" color="amber" indeterminate v-show="loading"></v-progress-circular>
       </div>
     </v-form>
   </div>
 </template>
 <script>
-  export default {
-    name: "Login",
-    data: () => ({
-      showForm: true,
-      email: null,
-      password: null,
-      showPassword: false,
-      emailRules: [
-        value => !!value || "メールアドレスは必須です",
-        value => /.+@.+/.test(value) || "メールアドレスの形式に誤りがあります"
-      ],
-      passwordRules: [
-        value => !!value || "パスワードは必須です",
-      ],
-      disableLogin: true
-    }),
-    updated() {
-      this.disableLogin = !(this.$refs.loginForm.validate());
-    },
-    methods: {
-      login: async function () {
-        this.showForm = false;
-        this.$store.commit("loading/setLoading", true);
-        await this.axios.post("/login", {
+export default {
+  name: "Login",
+  data: () => ({
+    showForm: true,
+    email: null,
+    password: null,
+    showPassword: false,
+    loginResult: "",
+    emailRules: [
+      value => !!value || "メールアドレスは必須です",
+      value => /.+@.+/.test(value) || "メールアドレスの形式に誤りがあります"
+    ],
+    passwordRules: [value => !!value || "パスワードは必須です"],
+    disableLogin: true,
+    loading: false
+  }),
+  updated() {
+    this.disableLogin = !this.$refs.loginForm.validate();
+  },
+  methods: {
+    login: async function() {
+      this.showForm = false;
+      this.loading = true;
+      await this.axios
+        .post("/login", {
           email: this.email,
           password: this.password
+        })
+        .then(response => {
+          this.$store.commit("user/setAuth", response.data);
+          this.loading = false;
+          this.$router.push("/");
+        })
+        .catch(err => {
+          this.loading = false;
+          this.showForm = true;
+          this.loginResult = err.response.data.message;
         });
-        this.$store.commit("loading/setLoading", false);
-        this.$store.commit("auth/setAuth", true);
-        this.loginSuccess = true;
-        this.$router.push("/");
-      },
-      sleep: waitSeconds => {
-        return new Promise(resolve => {
-          setTimeout(() => {
-            resolve();
-          }, waitSeconds * 1000);
-        });
-      }
     }
-  };
+  }
+};
 </script>
 
 <style scoped>
-  .link {
-    font-size: 80%;
-    text-decoration: inherit;
-  }
+.link {
+  font-size: 80%;
+  text-decoration: inherit;
+}
 
-  .login-button {
-    margin-left: 2rem;
-    width: 15em;
-  }
+.login-button {
+  margin-top: 1rem;
+  width: 15rem;
+}
 
-  .thin-word {
-    margin-left: 2rem;
-  }
+.login-link {
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+.login-result {
+  height: 2rem;
+  margin-top: 1rem;
+  text-align: center;
+  color: #f44336;
+}
 
-  .container {
-    margin-top: 5rem;
-  }
+.thin-word {
+  margin-top: 2rem;
+  margin-left: 3rem;
+}
+
+.container {
+  margin-top: 5rem;
+}
 </style>

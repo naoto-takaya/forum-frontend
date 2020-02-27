@@ -11,19 +11,22 @@ axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL
 axios.defaults.withCredentials = true
 
 
-axios.interceptors.response.use(response => {
-  return response
-}, error => {
-  switch (error.response.status) {
-    case 401:
-      router.push("/login");
-      break;
-  }
-})
+// 例外発生時の動作
+// axios.interceptors.response.use(response => {
+//   return response
+// }, error => {
+//   switch (error.response.status) {
+//     case 401:
+//       router.push("/login");
+//       return error;
+//     default:
+//       return error;
+//   }
+// })
 
 Vue.use(VueAxios, axios)
 
-Vue.directive('visible', function(el, binding) {
+Vue.directive('visible', function (el, binding) {
   el.style.visibility = !!binding.value ? 'visible' : 'hidden';
 });
 

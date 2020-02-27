@@ -4,12 +4,12 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  auth: false
+  user: null
 }
 
 const mutations = {
-  setAuth(state, payload) {
-    state.auth = payload
+  setAuth(state, user) {
+    state.user = user
   }
 }
 
